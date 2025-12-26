@@ -225,8 +225,8 @@ _build_zstd
 
 _tmp_dir="$(mktemp -d)"
 cd "${_tmp_dir}"
-gmp_ver="$(wget -qO- 'https://gmplib.org/download/gmp/' | grep -i 'href=' | sed -e 's|"|\n|g' | grep -i '^gmp-[1-9].*\.tar.xz$' | sed -e 's|gmp-||g' -e 's|\.tar.*||g' | sort -V | tail -n 1)"
-wget -c -t 9 -T 9 "https://gmplib.org/download/gmp/gmp-${gmp_ver}.tar.xz"
+gmp_ver="$(wget -qO- 'https://ftp.gnu.org/gnu/gmp/' | grep -i 'href=' | sed -e 's|"|\n|g' | grep -i '^gmp-[1-9].*\.tar.xz$' | sed -e 's|gmp-||g' -e 's|\.tar.*||g' | sort -V | tail -n 1)"
+wget -c -t 9 -T 9 "https://ftp.gnu.org/gnu/gmp/gmp-${gmp_ver}.tar.xz"
 tar -xof gmp-*.tar*
 sleep 1
 rm -f gmp-*.tar*
