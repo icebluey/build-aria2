@@ -460,6 +460,8 @@ _aria2_ver=$(./opt/aria2/bin/aria2c --version 2>&1 | grep -i 'aria2 version' | a
 
 rm -fr /tmp/_output
 mkdir /tmp/_output
+
+cd opt
 echo
 tar -Jcvf /tmp/_output/aria2-${_aria2_ver}-1_el9_amd64.tar.xz *
 echo
