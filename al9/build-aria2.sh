@@ -237,9 +237,6 @@ sleep 1
 ls -1 *.tar* | xargs -I '{}' tar -xof '{}'
 sleep 1
 rm -f *.tar*
-# libgpg-error
-# libgcrypt
-###############################################################################
 
 cd libgpg-error-*
 LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"; export LDFLAGS
@@ -262,7 +259,6 @@ rm -fr /tmp/libgpg-error
 cd "${_tmp_dir}"
 rm -fr libgpg-error-*
 /sbin/ldconfig
-###############################################################################
 
 cd libgcrypt-*
 LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"' -Wl,--disable-new-dtags -Wl,-rpath,\$$ORIGIN'; export LDFLAGS
