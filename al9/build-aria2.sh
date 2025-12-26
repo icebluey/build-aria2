@@ -14,8 +14,6 @@ CXX=g++
 export CXX
 /sbin/ldconfig
 
-dnf install -y gettext-common-devel gettext-devel gettext
-
 _private_dir='usr/lib64/aria2/private'
 
 set -euo pipefail
