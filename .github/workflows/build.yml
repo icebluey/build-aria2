@@ -20,7 +20,7 @@ jobs:
           sudo /bin/rm -fr /tmp/*;
           sudo /bin/bash scripts/install-docker.sh
 
-      - name: Build tor al9
+      - name: Build aria2 al9
         run: |
           sudo /bin/bash run-build-al9.sh
           sudo /bin/systemctl stop docker.socket docker.service containerd.service
