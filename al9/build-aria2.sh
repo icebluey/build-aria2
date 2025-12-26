@@ -223,8 +223,34 @@ _build_zstd() {
 _build_zstd
 ###############################################################################
 
-
+_tmp_dir="$(mktemp -d)"
+cd "${_tmp_dir}"
+gmp_ver="$(wget -qO- 'https://gmplib.org/download/gmp/' | grep -i 'href=' | sed -e 's|"|\n|g' | grep -i '^gmp-[1-9].*\.tar.xz$' | sed -e 's|gmp-||g' -e 's|\.tar.*||g' | sort -V | tail -n 1)"
+wget -c -t 9 -T 9 "https://gmplib.org/download/gmp/gmp-${gmp_ver}.tar.xz"
+tar -xof gmp-*.tar*
+sleep 1
+rm -f gmp-*.tar*
+cd gmp-*
+LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"; export LDFLAGS
+./configure --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
+--enable-shared --enable-static \
+--prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --sysconfdir=/etc
+make -j$(nproc --all) all
+rm -fr /tmp/gmp
+make install DESTDIR=/tmp/gmp
+cd /tmp/gmp
+_strip_files
+install -m 0755 -d "${_private_dir}"
+cp -af usr/lib64/*.so* "${_private_dir}"/
+sleep 1
+cp -afr * /
+sleep 1
+cd /tmp
+rm -fr "${_tmp_dir}"
+rm -fr /tmp/gmp
+/sbin/ldconfig
 ###############################################################################
+
 _tmp_dir="$(mktemp -d)"
 cd "${_tmp_dir}"
 for i in libgpg-error; do
@@ -283,34 +309,6 @@ rm -fr libgcrypt-*
 
 cd /tmp
 rm -fr "${_tmp_dir}"
-/sbin/ldconfig
-###############################################################################
-
-_tmp_dir="$(mktemp -d)"
-cd "${_tmp_dir}"
-gmp_ver=$(wget -qO- 'https://gmplib.org/download/gmp/' | grep -i 'href=' | sed -e 's|"|\n|g' | grep -i '^gmp-[1-9].*\.tar.xz$' | sed -e 's|gmp-||g' -e 's|\.tar.*||g' | sort -V | tail -n 1)
-wget -c -t 9 -T 9 "https://gmplib.org/download/gmp/gmp-${gmp_ver}.tar.xz"
-tar -xof gmp-*.tar*
-sleep 1
-rm -f gmp-*.tar*
-cd gmp-*
-LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"; export LDFLAGS
-./configure --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
---enable-shared --enable-static \
---prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --sysconfdir=/etc
-make -j$(nproc --all) all
-rm -fr /tmp/gmp
-make install DESTDIR=/tmp/gmp
-cd /tmp/gmp
-_strip_files
-install -m 0755 -d "${_private_dir}"
-cp -af usr/lib64/*.so* "${_private_dir}"/
-sleep 1
-cp -afr * /
-sleep 1
-cd /tmp
-rm -fr "${_tmp_dir}"
-rm -fr /tmp/gmp
 /sbin/ldconfig
 ###############################################################################
 
