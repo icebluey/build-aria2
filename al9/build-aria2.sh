@@ -269,7 +269,6 @@ make -j$(nproc --all) all
 rm -fr /tmp/libgcrypt
 make install DESTDIR=/tmp/libgcrypt
 cd /tmp/libgcrypt
-_libgcrypt_ver="$(cat usr/lib64/pkgconfig/libgcrypt.pc | grep -i '^Version' | awk '{print $NF}' | tr -d '\n')"
 _strip_files
 install -m 0755 -d "${_private_dir}"
 cp -af usr/lib64/*.so* "${_private_dir}"/
