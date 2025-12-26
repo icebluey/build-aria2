@@ -1,4 +1,4 @@
-name: build tor
+name: build-aria2
 on:
   #push:
   #  branches: [ "master" ]
