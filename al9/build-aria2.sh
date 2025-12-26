@@ -251,65 +251,65 @@ rm -fr /tmp/gmp
 /sbin/ldconfig
 ###############################################################################
 
-_tmp_dir="$(mktemp -d)"
-cd "${_tmp_dir}"
-for i in libgpg-error; do
-    _tarname=$(wget -qO- https://gnupg.org/ftp/gcrypt/${i}/ | sed -n 's/.*href="\([^"]*\.tar\.bz2\)".*/\1/p' | grep -v -- '-qt' | sort -V | tail -1)
-    [[ -n "$_tarname" ]] && wget -c -t 9 -T 9 "https://gnupg.org/ftp/gcrypt/${i}/${_tarname}"
-done
-_libgcrypt_tarname="$(wget -qO- https://gnupg.org/ftp/gcrypt/libgcrypt/ | sed -n 's/.*href="\([^"]*\.tar\.bz2\)".*/\1/p' | grep -v -- '-qt' | sort -V | tail -1)"
-wget -c -t 9 -T 9 "https://gnupg.org/ftp/gcrypt/libgcrypt/${_libgcrypt_tarname}"
-sleep 1
-ls -1 *.tar* | xargs -I '{}' tar -xof '{}'
-sleep 1
-rm -f *.tar*
+# _tmp_dir="$(mktemp -d)"
+# cd "${_tmp_dir}"
+# for i in libgpg-error; do
+#     _tarname=$(wget -qO- https://gnupg.org/ftp/gcrypt/${i}/ | sed -n 's/.*href="\([^"]*\.tar\.bz2\)".*/\1/p' | grep -v -- '-qt' | sort -V | tail -1)
+#     [[ -n "$_tarname" ]] && wget -c -t 9 -T 9 "https://gnupg.org/ftp/gcrypt/${i}/${_tarname}"
+# done
+# _libgcrypt_tarname="$(wget -qO- https://gnupg.org/ftp/gcrypt/libgcrypt/ | sed -n 's/.*href="\([^"]*\.tar\.bz2\)".*/\1/p' | grep -v -- '-qt' | sort -V | tail -1)"
+# wget -c -t 9 -T 9 "https://gnupg.org/ftp/gcrypt/libgcrypt/${_libgcrypt_tarname}"
+# sleep 1
+# ls -1 *.tar* | xargs -I '{}' tar -xof '{}'
+# sleep 1
+# rm -f *.tar*
 
-cd libgpg-error-*
-LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"; export LDFLAGS
-./configure --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
---enable-shared --enable-static \
---prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --sysconfdir=/etc
-make -j$(nproc --all) all
-rm -fr /tmp/libgpg-error
-make install DESTDIR=/tmp/libgpg-error
-cd /tmp/libgpg-error
-_strip_files
-install -m 0755 -d "${_private_dir}"
-cp -af usr/lib64/*.so* "${_private_dir}"/
-sleep 1
-/bin/cp -afr * /
-sleep 1
-cd /tmp
-rm -fr /tmp/libgpg-error
-/sbin/ldconfig
-cd "${_tmp_dir}"
-rm -fr libgpg-error-*
-/sbin/ldconfig
+# cd libgpg-error-*
+# LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"; export LDFLAGS
+# ./configure --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
+# --enable-shared --enable-static \
+# --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --sysconfdir=/etc
+# make -j$(nproc --all) all
+# rm -fr /tmp/libgpg-error
+# make install DESTDIR=/tmp/libgpg-error
+# cd /tmp/libgpg-error
+# _strip_files
+# install -m 0755 -d "${_private_dir}"
+# cp -af usr/lib64/*.so* "${_private_dir}"/
+# sleep 1
+# /bin/cp -afr * /
+# sleep 1
+# cd /tmp
+# rm -fr /tmp/libgpg-error
+# /sbin/ldconfig
+# cd "${_tmp_dir}"
+# rm -fr libgpg-error-*
+# /sbin/ldconfig
 
-cd libgcrypt-*
-LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"' -Wl,--disable-new-dtags -Wl,-rpath,\$$ORIGIN'; export LDFLAGS
-./configure --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
---enable-shared --enable-static \
---prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --sysconfdir=/etc
-make -j$(nproc --all) all
-rm -fr /tmp/libgcrypt
-make install DESTDIR=/tmp/libgcrypt
-cd /tmp/libgcrypt
-_strip_files
-install -m 0755 -d "${_private_dir}"
-cp -af usr/lib64/*.so* "${_private_dir}"/
-sleep 1
-/bin/cp -afr * /
-sleep 1
-cd /tmp
-rm -fr /tmp/libgcrypt
-/sbin/ldconfig
-cd "${_tmp_dir}"
-rm -fr libgcrypt-*
+# cd libgcrypt-*
+# LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"' -Wl,--disable-new-dtags -Wl,-rpath,\$$ORIGIN'; export LDFLAGS
+# ./configure --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
+# --enable-shared --enable-static \
+# --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --sysconfdir=/etc
+# make -j$(nproc --all) all
+# rm -fr /tmp/libgcrypt
+# make install DESTDIR=/tmp/libgcrypt
+# cd /tmp/libgcrypt
+# _strip_files
+# install -m 0755 -d "${_private_dir}"
+# cp -af usr/lib64/*.so* "${_private_dir}"/
+# sleep 1
+# /bin/cp -afr * /
+# sleep 1
+# cd /tmp
+# rm -fr /tmp/libgcrypt
+# /sbin/ldconfig
+# cd "${_tmp_dir}"
+# rm -fr libgcrypt-*
 
-cd /tmp
-rm -fr "${_tmp_dir}"
-/sbin/ldconfig
+# cd /tmp
+# rm -fr "${_tmp_dir}"
+# /sbin/ldconfig
 ###############################################################################
 
 _build_xz() {
@@ -341,7 +341,7 @@ _build_xz() {
     rm -fr /tmp/xz
     /sbin/ldconfig
 }
-_build_xz
+#_build_xz
 ###############################################################################
 
 _build_libxml2() {
@@ -378,6 +378,38 @@ _build_libxml2() {
     /sbin/ldconfig
 }
 _build_libxml2
+###############################################################################
+
+_build_cares() {
+    /sbin/ldconfig
+    set -euo pipefail
+    local _tmp_dir="$(mktemp -d)"
+    cd "${_tmp_dir}"
+    _cares_ver="$(wget -qO- 'https://github.com/c-ares/c-ares/releases' | grep -i 'href="/c-ares/c-ares/releases/tag/v[1-9]' | sed 's|"|\n|g' | grep -i '^/c-ares/c-ares/releases/tag/v[1-9]' | sed 's|.*/v||g' | sort -V | tail -n 1)"
+    wget -c -t 9 -T 9 "https://github.com/c-ares/c-ares/releases/download/v${_cares_ver}/c-ares-${_cares_ver}.tar.gz"
+    tar -xof c-ares-*.tar*
+    rm -f c-ares-*.tar*
+    cd c-ares-*
+    LDFLAGS=''; LDFLAGS="${_ORIG_LDFLAGS}"' -Wl,--disable-new-dtags -Wl,-rpath,\$$ORIGIN'; export LDFLAGS
+    ./configure \
+    --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
+    --enable-shared --enable-static \
+    --enable-largefile --with-random=/dev/urandom \
+    --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include --sysconfdir=/etc
+    make -j$(nproc --all) all
+    rm -fr /tmp/cares
+    make install DESTDIR=/tmp/cares
+    cd /tmp/cares
+    _strip_files
+    install -m 0755 -d "${_private_dir}"
+    cp -af usr/lib64/*.so* "${_private_dir}"/
+    /bin/cp -afr * /
+    cd /tmp
+    rm -fr "${_tmp_dir}"
+    rm -fr /tmp/cares
+    /sbin/ldconfig
+}
+_build_cares
 ###############################################################################
 
 _build_openssl35() {
