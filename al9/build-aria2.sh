@@ -488,7 +488,10 @@ rm -fr /tmp/_output
 mkdir /tmp/_output
 
 cd opt
+rm -fr aria2/share/man/pt
+rm -fr aria2/share/man/ru
 echo
+sleep 1
 tar -Jcvf /tmp/_output/aria2-${_aria2_ver}-1_el9_amd64.tar.xz *
 echo
 sleep 1
