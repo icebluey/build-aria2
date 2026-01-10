@@ -82,7 +82,8 @@ yum install -y glibc bzip2-libs openldap readline ncurses-libs libusbx libsecret
 # build gpg bundle
 yum install -y glibc-devel bzip2-devel openldap-devel readline-devel ncurses-devel libusbx-devel libsecret-devel
 
-dnf install -y gettext-common-devel gettext-devel gettext
+# gettext-devel provides autopoint
+dnf install -y gettext-devel gettext gettext-libs
 
 if [ -e /etc/ssl/certs/ca-certificates.crt ] && [ ! -e /etc/ssl/cert.pem ]; then ln -sv certs/ca-certificates.crt /etc/ssl/cert.pem; fi
 if [ -e /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem ] && [ ! -e /etc/ssl/cert.pem ]; then ([ -e /etc/ssl ] || install -m 0755 -d /etc/ssl) && ln -sv /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem /etc/ssl/cert.pem; fi
