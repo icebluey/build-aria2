@@ -472,7 +472,7 @@ autoreconf -ivf
     --build=x86_64-linux-gnu --host=x86_64-linux-gnu \
     --prefix=/opt/aria2 --libdir=/opt/aria2/lib64
 
-make -j$(nproc --all) all
+make V=1 -j$(nproc --all) all
 make install DESTDIR=/tmp/aria2
 
 cd /tmp/aria2
